@@ -2,13 +2,36 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <title>React App</title>
+
+    <!-- Set the viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+    <!-- Set character encoding -->
+    <meta charset="utf-8">
+
+    <!-- Set title -->
+    <title>News</title>
+
 </head>
 
 <body>
+    <script>
+        if ('serviceWorker' in navigator) {
+            // window.addEventListener('load', () => {
+            //     navigator.serviceWorker.register('/sw.js')
+            //         .then(registration => {
+            //             console.log(`Service Worker registered! Scope: ${registration.scope}`);
+            //         })
+            //         .catch(err => {
+            //             console.log(`Service Worker registration failed: ${err}`);
+            //         });
+            // });
+        }
+    </script>
+
     <div id="root"></div>
     <script type="text/javascript" src="main.js"></script>
+
 </body>
 
 </html>

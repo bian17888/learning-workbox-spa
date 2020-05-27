@@ -1,15 +1,19 @@
-const HtmlWebPackPlugin = require( 'html-webpack-plugin' );
 const path = require( 'path' );
+
+const HtmlWebPackPlugin = require( 'html-webpack-plugin' );
+const {GenerateSW, InjectManifest } = require( 'workbox-webpack-plugin')
+
 module.exports = {
    context: __dirname,
    entry: './src/index.js',
    output: {
-      path: path.resolve( __dirname, 'build' ),
-      filename: 'main.js',
-      publicPath: '/',
+       filename: 'main.js',
+       path: path.resolve( __dirname, 'build' ),
    },
    devServer: {
-      historyApiFallback: true
+      contentBase: path.resolve(__dirname, 'src'),
+      publicPath : '/',
+      watchContentBase: false,
    },
    module: {
       rules: [
@@ -22,7 +26,7 @@ module.exports = {
             use: ['style-loader', 'css-loader'],
          },
          {
-            test: /\.(png|j?g|svg|gif)?$/,
+            test: /\.(png|svg|jpg|gif)$/,
             use: 'file-loader'
          }
 ]
@@ -31,6 +35,17 @@ module.exports = {
       new HtmlWebPackPlugin({
          template: path.resolve( __dirname, './src/index.html' ),
          filename: 'index.html'
-      })
+      }),
+
+      new GenerateSW({
+        // these options encourage the ServiceWorkers to get in there fast
+        // and not allow any straggling "old" SWs to hang around
+        clientsClaim: true,
+        skipWaiting: true,
+      }),
+    //   new InjectManifest({
+    //     swSrc: './src/sw.js',
+    //     swDest: 'sw.js'
+    //   })
    ]
 };
