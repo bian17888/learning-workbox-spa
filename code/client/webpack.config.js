@@ -7,8 +7,9 @@ module.exports = {
    context: __dirname,
    entry: './src/index.js',
    output: {
-       filename: 'main.js',
-       path: path.resolve( __dirname, 'build' ),
+      path: path.resolve( __dirname, 'build' ),
+      filename: 'main.js',
+      publicPath : '/',
    },
    devServer: {
       contentBase: path.resolve(__dirname, 'src'),
@@ -39,11 +40,39 @@ module.exports = {
       new InjectManifest({
         swSrc: './src/sw.js'
       }),
-      // new GenerateSW({
-      //   // these options encourage the ServiceWorkers to get in there fast
-      //   // and not allow any straggling "old" SWs to hang around
-      //   clientsClaim: true,
-      //   skipWaiting: true,
-      // }),
+      new GenerateSW({
+         // Do not precache images
+         exclude: [/\.(?:png|jpg|jpeg|svg)$/],
+   
+         // Define runtime caching rules.
+         runtimeCaching: [
+            // images
+            {
+               // Match any request that ends with .png, .jpg, .jpeg or .svg.
+               urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
+               // Apply a cache-first strategy.
+               handler: 'CacheFirst',
+               options: {
+                  // Use a custom cache name.
+                  cacheName: 'images',
+                  // Only cache 10 images.
+                  expiration: {
+                     maxEntries: 10,
+                  },
+               },
+            },
+            // css + js
+            {
+               // Match any request that ends with .png, .jpg, .jpeg or .svg.
+               urlPattern: /\.(?:css|js)$/,
+               // Apply a cache-first strategy.
+               handler: 'StaleWhileRevalidate',
+               options: {
+                  // Use a custom cache name.
+                  cacheName: 'static',
+               },
+            }
+         ],
+      })
    ]
 };

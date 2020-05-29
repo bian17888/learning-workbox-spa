@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "webpack-dev-server": "webpack-dev-server",
-    "dev": "webpack-dev-server --mode=development",
+    "dev": "nodemon -w webpack.config.js -x webpack-dev-server --mode=development",
     "prod": "webpack --mode=development"
   },
   "keywords": [],
@@ -26,6 +26,7 @@
     "css-loader": "^3.5.3",
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.3.0",
+    "nodemon": "^2.0.4",
     "path": "^0.12.7",
     "style-loader": "^1.2.1",
     "webpack": "^4.43.0",
